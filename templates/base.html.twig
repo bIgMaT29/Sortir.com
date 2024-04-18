@@ -1,17 +1,41 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <!-- Méta-étiquette pour définir la largeur de l'affichage -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre de la page -->
+    <title>Sortir.com - {% block title %}Series!{% endblock %}</title>
+    <!-- Lien vers l'icône de la page -->
+    <link rel="icon" href="{{ asset("img/favicon_sortir_com.png") }}">
+    <!-- Lien vers la feuille de style Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Lien vers le fichier CSS personnalisé -->
+    <link rel="stylesheet" href="{{ asset("css/styles.css") }}">
+</head>
+<body>
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+<!-- Inclusion de la gestion du logo et de la navigation -->
+{% include('inc/logonav.html.twig') %}
+
+<!-- Conteneur principal pour le contenu de la page -->
+<div class="container content mt-4">
+    <!-- Bloc de contenu dynamique -->
+    {% block body %}{% endblock %}
+</div>
+
+<!-- Pied de page -->
+<footer class="footer">
+    <div class="container">
+        <!-- Affichage de l'année actuelle -->
+        <span>© {{ "now"|date("Y") }} bIgMaT Corp. Tous droits réservés.</span>
+    </div>
+</footer>
+
+<!-- Scripts JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
 </html>
