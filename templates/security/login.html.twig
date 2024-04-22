@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-10">
+
+            <form method="post">
+
+                <div class="form-group">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {% if app.user %}
+                        <div class="mb-3">
+                            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputIdentifiant">Identifiant</label>
+                    <input type="text" value="{{ last_username }}" name="eMailOrPseudo" id="inputIdentifiant" class="form-control" autocomplete="username" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                    <div class="forgot-password">
+                        <a href="#">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+
+                <button type="submit" class="btn btn-primary mt-3">Connexion</button>
+
+                <label>
+                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                </label>
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

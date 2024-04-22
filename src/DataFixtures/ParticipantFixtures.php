@@ -32,7 +32,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
             $participant->setEMail($faker->email);
 
             // Hachage du mot de passe
-            $hashedPassword = $this->passwordHasherService->hashPassword($participant, $faker->password);
+            $hashedPassword = $this->passwordHasherService->hashPassword($participant, 'mdp_' . $i);
             $participant->setMotDePasse($hashedPassword);
 
             $participant->setPhotoDeProfil($faker->imageUrl());
