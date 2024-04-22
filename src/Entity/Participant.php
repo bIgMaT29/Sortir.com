@@ -235,9 +235,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addInscription(Sortie $inscription): static
     {
+        // Vérifie si l'inscription n'est pas déjà associée à ce participant
         if (!$this->inscriptions->contains($inscription)) {
+            // Ajoute l'inscription à la liste des inscriptions de ce participant
             $this->inscriptions->add($inscription);
-            $inscription->addParticipant($this);
         }
 
         return $this;

@@ -198,10 +198,16 @@ class Sortie
         return $this->participants;
     }
 
-    public function addParticipant(Participant $participant): static
+    public function addParticipants(ArrayCollection $participants): static
     {
-        if (!$this->participants->contains($participant)) {
-            $this->participants->add($participant);
+        foreach ($participants as $participant) {
+            // Vérifie si le participant n'est pas déjà associé à cette sortie
+            if (!$this->participants->contains($participant)) {
+                // Ajoute le participant à la liste des participants de cette sortie
+                $this->participants->add($participant);
+                // Ajoute cette sortie aux inscriptions du participant
+                $participant->addInscription($this);
+            }
         }
 
         return $this;
