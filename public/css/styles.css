@@ -52,3 +52,10 @@ footer {
 .forgot-password {
     margin-top: 5px; /* Vous pouvez ajuster la valeur selon vos besoins */
 }
+
+#profil-image {
+    cursor: pointer;
+    width: 200px; /* Définissez la largeur souhaitée */
+    height: 200px; /* Définissez la hauteur souhaitée */
+    object-fit: cover; /* Zoomer l'image pour qu'elle remplisse le conteneur en conservant ses proportions */
+}

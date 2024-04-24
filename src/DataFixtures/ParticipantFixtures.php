@@ -35,7 +35,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
             $hashedPassword = $this->passwordHasherService->hashPassword($participant, 'mdp_' . $i);
             $participant->setMotDePasse($hashedPassword);
 
-            $participant->setPhotoDeProfil($faker->imageUrl());
+            $participant->setPhotoDeProfil("defaut.png");
             $participant->setAdministrateur($faker->boolean);
             $participant->setActif($faker->boolean);
             $participant->setDateCreation(new \DateTime()); // Date de création définie à maintenant

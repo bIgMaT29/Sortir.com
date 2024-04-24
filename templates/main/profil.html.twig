@@ -1,0 +1,171 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        <h1 class="mt-4 mb-4">Modifier Mon Profil</h1>
+
+        <form method="post" action="{{ path('main_profil') }}" enctype="multipart/form-data">
+
+            {{ form_start(form) }}
+
+            <div class="row">
+
+                <div class="col-md-4 text-center">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-center align-items-center flex-column">
+                            <!-- Afficher la photo de profil avec l'attribut de données -->
+                            <img id="profil-image" src="{{ asset('img/profil/' ~ form.photoDeProfil.vars.value) }}" alt="Photo de profil" title="Modifier la photo du profil" style="width: 200px; height: 200px;">
+
+                            <!-- Div pour afficher le nom du fichier sélectionné -->
+                            <div id="filename"></div>
+
+                            <!-- Bouton "Modifier" pour ouvrir l'explorateur de fichier -->
+                            <a href="#" class="btn btn-secondary mt-2" id="change-photo">Modifier</a>
+
+                            <!-- Bouton "Supprimer" pour réinitialiser l'image -->
+                            {% if form.photoDeProfil.vars.value != 'defaut.png' %}
+                                <a href="#" class="btn btn-secondary mt-2" id="delete-photo">Supprimer</a>
+                            {% else %}
+                                <a href="#" class="btn btn-secondary mt-2" id="delete-photo" style="display: none;">Supprimer</a>
+                            {% endif %}
+
+                            <!-- Champ de téléchargement de la nouvelle photo de profil (caché) -->
+                            {{ form_widget(form.newPhotoDeProfil, {'attr': {'class': 'form-control'}}) }}
+
+                            <!-- Champ du nom de la photo de profil (caché) -->
+                            {{ form_widget(form.photoDeProfil, {'attr': {'class': 'form-control'}, 'value': form.photoDeProfil.vars.value}) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        {{ form_label(form.pseudo, 'Pseudo', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Pseudo'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.eMail, 'E-mail', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.eMail, {'attr': {'class': 'form-control', 'placeholder': 'E-mail'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.newMotDePasse, 'Nouveau mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.newMotDePasse, {'attr': {'class': 'form-control', 'placeholder': 'Nouveau mot de passe'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.confirmNewMotDePasse, 'Confirmer le mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.confirmNewMotDePasse, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe'}}) }}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        {{ form_label(form.prenom, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.telephone, 'Téléphone', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.telephone, {'attr': {'class': 'form-control', 'placeholder': 'Téléphone'}}) }}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Bouton "Modifier" pour soumettre le formulaire -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-grid gap-2 mt-4 mb-5"> <!-- Ajoutez mt-4 pour la marge supérieure -->
+                        <button type="submit" class="btn btn-primary btn-lg">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+
+        </form>
+
+        <!-- Affichage des messages d'erreur -->
+        {% if app.session.flashBag.has('error') %}
+            <div class="alert alert-danger mt-3 mb-5">
+                {% for message in app.session.flashBag.get('error') %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Affichage des messages de succès -->
+            {% if app.session.flashBag.has('success') %}
+                <div class="alert alert-success mt-3 mb-5">
+                    {% for message in app.session.flashBag.get('success') %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+
+    </div>
+
+    <script>
+
+        // Gestion de l'événement de clic sur le bouton "Modifier" pour ouvrir l'explorateur de fichiers
+        document.getElementById('change-photo').addEventListener('click', function() {
+            // Simuler un clic sur le champ de sélection de fichier invisible
+            document.querySelector('input[type=file]').click();
+        });
+
+        // Gestion de l'événement de clic sur la photo de profil pour ouvrir l'explorateur de fichiers
+        document.getElementById('profil-image').addEventListener('click', function() {
+            // Simule un clic sur le champ de sélection de fichier invisible
+            document.querySelector('input[type=file]').click();
+        });
+
+        document.querySelector('input[type=file]').addEventListener('change', function() {
+            var validExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            var fileName = this.value.split('.').pop().toLowerCase();
+
+            if (validExtensions.indexOf(fileName) === -1) {
+                // Réinitialiser la photo de profil
+                resetProfilePhoto();
+
+                // Afficher une alerte si le fichier sélectionné n'a pas une extension valide
+                alert('Veuillez sélectionner un fichier de type JPEG, PNG ou GIF.');
+            } else {
+                document.getElementById('filename').innerText = this.files[0].name;
+
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    var img = document.getElementById('profil-image');
+                    img.src = event.target.result;
+                    document.getElementById('delete-photo').style.display = 'block';
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        // Gestion de l'événement de clic sur le bouton "Supprimer"
+        document.getElementById('delete-photo').addEventListener('click', resetProfilePhoto);
+
+        // Fonction pour réinitialiser la photo de profil
+        function resetProfilePhoto() {
+            // Réinitialiser la photo de profil (pra défaut)
+            document.getElementById('profil-image').src = '{{ asset('img/profil/defaut.png') }}';
+            // Réinitialiser le nom du fichier affiché
+            document.getElementById('filename').innerText = "";
+            // Cacher le bouton "Supprimer"
+            document.getElementById('delete-photo').style.display = 'none';
+            // Réinitialiser le champ de sélection du nouveau fichier
+            document.querySelector('input[type=file]').value = "";
+            // Réinitialiser le champ du nom de la photo de profil
+            document.querySelector('input[type=text]').value = "defaut.png";
+        }
+
+    </script>
+
+{% endblock %}
