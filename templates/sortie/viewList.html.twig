@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Sorties{% endblock %}
+
+{% block body %}
+
+    {# Formulaire de filtrage des sorties #}
+    <h2>Filtrer les sorties</h2>
+    <form id="filterForm" method="get" action="{{ path('sortie_viewList') }}">
+        <div>
+            <label for="campus">Campus :</label>
+            <select name="campus" id="campus">
+                <option value="">Tous les campus</option>
+                {% for campus in campuses %}
+                    <option value="{{ campus.id }}">{{ campus.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="search">Le nom de la sortie contient :</label>
+            <input type="text" name="search" id="search">
+        </div>
+
+        <div>
+            <label for="startDate">Date de la sortie entre :</label>
+            <input type="date" name="startDate" id="startDate">
+            <label for="endDate">et</label>
+            <input type="date" name="endDate" id="endDate">
+        </div>
+
+        <div>
+            <input type="checkbox" name="organisateur" id="organisateur">
+            <label for="organisateur">Sorties dont je suis l'organisateur/trice</label>
+        </div>
+
+        <div>
+            <input type="checkbox" name="inscrit" id="inscrit">
+            <label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
+        </div>
+
+        <div>
+            <input type="checkbox" name="nonInscrit" id="nonInscrit">
+            <label for="nonInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
+        </div>
+
+        <div>
+            <input type="checkbox" name="passees" id="passees">
+            <label for="passees">Sorties passées</label>
+        </div>
+
+        <div>
+            <button type="button" onclick="resetForm()">Réinitialiser</button>
+            <button type="submit">Rechercher</button>
+        </div>
+    </form>
+
+    {# Liste des sorties #}
+    <h1>Liste des Sorties</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="column-title">Nom</th>
+            <th class="column-title">Date de la sortie</th>
+            <th class="column-title">Date de clôture</th>
+            <th class="column-title">Inscrits / Places</th>
+            <th class="column-title">État</th>
+            <th class="column-title">Inscrit</th>
+            <th class="column-title">Organisateur</th>
+            <th class="column-title">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sortie in sorties %}
+            <tr>
+                <td class="column-contenu">{{ sortie.nom }}</td>
+                <td class="column-contenu">{{ sortie.dateHeureDebut|date('Y-m-d H:i') }}</td>
+                <td class="column-contenu">{{ sortie.dateLimiteInscription|date('Y-m-d') }}</td>
+                <td class="column-contenu">{{ sortie.participants|length }} / {{ sortie.nbInscriptionsMax }}</td>
+                <td class="column-contenu">{{ sortie.etat.libelle }}</td>
+                <td class="column-contenu">
+                    {# Affichage du checkbox pour les inscrits #}
+                    {% if app.user is defined and sortie.participants.contains(app.user) %}
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="checkbox{{ loop.index }}" checked disabled>
+                            <label for="checkbox{{ loop.index }}"></label>
+                        </div>
+                    {% else %}
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="checkbox{{ loop.index }}" disabled>
+                            <label for="checkbox{{ loop.index }}"></label>
+                        </div>
+                    {% endif %}
+                </td>
+                <td class="column-contenu">{{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom }}</td>
+                <td class="column-contenu">
+                    {# Actions en fonction de l'état de la sortie #}
+                    {% if sortie.etat.libelle == "Ouverte" %}
+                        <div class="action-links">
+                            <a class="action-link" href="{{ path('sortie_view', {'id': sortie.id}) }}">Afficher</a>
+                            {% if app.user is defined and app.user == sortie.organisateur %}
+                                <a class="action-link" href="#">Publier</a>
+                                <a class="action-link" href="#">Annuler</a>
+                            {% elseif app.user is defined %}
+                                {% if sortie.participants.contains(app.user) %}
+                                    <a class="action-link" href="{{ path('sortie_desister', {'id': sortie.id}) }}">Se désister</a>
+                                {% else %}
+                                    <a class="action-link" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Affichage des messages d'erreur -->
+    {% if app.session.flashBag.has('error') %}
+        <div class="alert alert-danger mt-3 mb-5">
+            {% for message in app.session.flashBag.get('error') %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Affichage des messages de succès -->
+        {% if app.session.flashBag.has('success') %}
+            <div class="alert alert-success mt-3 mb-5">
+                {% for message in app.session.flashBag.get('success') %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {# Bouton pour créer une nouvelle sortie #}
+    <div class="mt-3 mb-5">
+        <a href="#" class="btn btn-primary">Créer une sortie</a>
+    </div>
+
+    {% block javascripts %}
+        <script>
+            // Fonction pour réinitialiser le formulaire
+            function resetForm() {
+                // Réinitialiser les valeurs des champs du formulaire
+                document.getElementById("filterForm").reset();
+                // Soumettre le formulaire pour charger à nouveau la liste des sorties non filtrées
+                document.getElementById("filterForm").submit();
+            }
+
+            // Soumettre le formulaire lorsque le bouton "Rechercher" est cliqué
+            document.getElementById("filterForm").addEventListener("submit", function(event) {
+                // Empêcher le comportement par défaut du formulaire
+                event.preventDefault();
+                // Soumettre le formulaire
+                this.submit();
+            });
+        </script>
+    {% endblock %}
+
+{% endblock %}

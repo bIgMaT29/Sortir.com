@@ -35,4 +35,5 @@ class SecurityController extends AbstractController
     {
         throw new LogicException('Cette méthode peut être vide - elle sera interceptée par la clé de déconnexion sur votre pare-feu.');
     }
+
 }

@@ -60,24 +60,60 @@ footer {
     object-fit: cover; /* Zoomer l'image pour qu'elle remplisse le conteneur en conservant ses proportions */
 }
 
-.ville-nom,
-.ville-codepostal {
-    color: white; /* Définit la couleur du texte en blanc */
-}
-
 .action-link {
     color: white; /* Définit la couleur du texte en blanc */
     /*text-decoration: none; !* Supprime la soulignement par défaut des liens *!*/
+    display: flex;
+    flex-direction: column;
 }
 
 .action-link:hover {
     text-decoration: underline; /* Ajoute un soulignement lorsque le lien est survolé */
 }
 
-.column-title {
+.ville-nom,
+.ville-codepostal {
     color: white; /* Définit la couleur du texte en blanc */
 }
 
 .campus-nom {
     color: white; /* Définit la couleur du texte en blanc */
+}
+
+.column-title,
+.column-contenu {
+    color: white; /* Définit la couleur du texte en blanc */
+}
+
+/* Styles pour le checkbox personnalisé */
+.custom-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.custom-checkbox label {
+    position: relative;
+    cursor: pointer;
+    padding-left: 25px; /* Espace pour le faux checkbox */
+}
+
+.custom-checkbox label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px; /* Largeur du faux checkbox */
+    height: 18px; /* Hauteur du faux checkbox */
+    border: 1px solid #aaa;
+    background-color: #fff;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label::before {
+    content: "\2713"; /* Code Unicode de la coche */
+    font-size: 14px;
+    line-height: 18px; /* Ajustez la hauteur selon vos besoins */
+    text-align: center;
+    border-color: #1e88e5; /* Couleur de la coche */
+    background-color: #1e88e5; /* Couleur de fond de la coche */
+    color: #fff; /* Couleur de la coche */
 }

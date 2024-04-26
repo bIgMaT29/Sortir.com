@@ -26,4 +26,5 @@ class CampusFixtures extends Fixture
 
         $manager->flush();
     }
+
 }

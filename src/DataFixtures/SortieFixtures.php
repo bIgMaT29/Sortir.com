@@ -19,9 +19,9 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 10; $i++) {
             $sortie = new Sortie();
             $sortie->setNom($faker->sentence);
-            $sortie->setDateHeureDebut($faker->dateTimeBetween('+1 day', '+1 month'));
+            $sortie->setDateHeureDebut($faker->dateTimeBetween('+15 days', '+30 days'));
             $sortie->setDuree($faker->numberBetween(1, 24));
-            $sortie->setDateLimiteInscription($faker->dateTimeBetween('-1 month', '+1 day'));
+            $sortie->setDateLimiteInscription($faker->dateTimeBetween('-7 days', '+7 days'));
             $sortie->setNbInscriptionsMax($faker->numberBetween(5, 50));
             $sortie->setInfosSortie($faker->paragraph);
 
@@ -79,4 +79,5 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
             ParticipantFixtures::class,
         ];
     }
+
 }

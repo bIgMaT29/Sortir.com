@@ -1,0 +1,21 @@
+{# templates/sortie/view.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la sortie{{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>Détails de la sortie "{{ sortie.nom }}"</h1>
+    <p>Date et heure de début : {{ sortie.dateHeureDebut|date('Y-m-d H:i:s') }}</p>
+    <p>Durée : {{ sortie.duree }}</p>
+    <p>Date limite d'inscription : {{ sortie.dateLimiteInscription|date('Y-m-d') }}</p>
+    <p>Nombre d'inscriptions maximum : {{ sortie.nbInscriptionsMax }}</p>
+    <p>Infos sur la sortie : {{ sortie.infosSortie }}</p>
+    <p>État de la sortie : {{ sortie.etat.libelle }}</p>
+    <p>Lieu de la sortie : {{ sortie.lieu.nom }}</p>
+    <p>Organisateur : {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</p>
+    <p>Participants :</p>
+    {% for participant in sortie.participants %}
+        <p>{{ participant.pseudo }} {{ participant.prenom }} {{ participant.nom }}</p>
+    {% endfor %}
+{% endblock %}

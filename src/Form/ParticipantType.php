@@ -54,4 +54,5 @@ class ParticipantType extends AbstractType
             'data_class' => Participant::class,
         ]);
     }
+
 }

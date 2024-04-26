@@ -80,4 +80,5 @@ class CampusController extends AbstractController
 
         return $this->redirectToRoute('campus_viewList');
     }
+
 }

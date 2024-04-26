@@ -27,7 +27,7 @@ class MainController extends AbstractController
     public function home(): Response
     {
         // Afficher la page d'accueil
-        return $this->render('main/home.html.twig');
+        return $this->redirectToRoute('sortie_viewList');
     }
 
 }

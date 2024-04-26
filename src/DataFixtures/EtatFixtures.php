@@ -11,7 +11,7 @@ class EtatFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         // Création de quelques états fictifs
-        $etats = ['Créée', 'Ouverte', 'Clôturée', 'Annulée'];
+        $etats = ['Créée', 'Ouverte', 'Clôturée', 'Activité en cours', 'passée', 'Annulée'];
 
         foreach ($etats as $index => $libelle) {
             $etat = new Etat();
@@ -26,4 +26,5 @@ class EtatFixtures extends Fixture
 
         $manager->flush();
     }
+
 }

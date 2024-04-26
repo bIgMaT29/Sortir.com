@@ -54,4 +54,5 @@ class LieuFixtures  extends Fixture implements DependentFixtureInterface
             VilleFixtures::class,
         ];
     }
+
 }

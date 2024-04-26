@@ -28,4 +28,5 @@ class VilleFixtures extends Fixture
 
         $manager->flush();
     }
+
 }
