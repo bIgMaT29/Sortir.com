@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Villes{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des Villes</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="column-title">Nom</th>
+            <th class="column-title">Code Postal</th>
+            <th class="column-title">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ville in villes %}
+            <tr>
+                <td class="ville-nom">{{ ville.nom }}</td>
+                <td class="ville-codepostal">{{ ville.codePostal }}</td>
+                <td>
+                    <a href="{{ path('ville_edit', {'id': ville.id}) }}" class="btn btn-primary">Modifier</a>
+
+                    <form action="{{ path('ville_delete', {'id': ville.id}) }}" method="post" style="display: inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ville.id) }}">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette ville ?')">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Affichage des messages d'erreur -->
+    {% if app.session.flashBag.has('error') %}
+        <div class="alert alert-danger mt-3 mb-5">
+            {% for message in app.session.flashBag.get('error') %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Affichage des messages de succès -->
+        {% if app.session.flashBag.has('success') %}
+            <div class="alert alert-success mt-3 mb-5">
+                {% for message in app.session.flashBag.get('success') %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div class="mt-3 mb-5">
+        <a href="{{ path('main_redirect') }}" class="btn btn-secondary">Retour à l'accueil</a>
+        <a href="{{ path('ville_add') }}" class="btn btn-primary">Ajouter une ville</a>
+    </div>
+
+{% endblock %}

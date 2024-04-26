@@ -35,10 +35,12 @@ class ParticipantType extends AbstractType
             ->add('newMotDePasse', PasswordType::class, [
                 'required' => false, // Champ facultatif
                 'mapped' => false,   // Champ non lié à une propriété de l'entité Participant
+                'empty_data' => '', // Valeur vide par défaut
             ])
             ->add('confirmNewMotDePasse', PasswordType::class, [
                 'required' => false, // Champ facultatif
                 'mapped' => false,   // Champ non lié à une propriété de l'entité Participant
+                'empty_data' => '', // Valeur vide par défaut
             ])
             ->add('eMail', EmailType::class)
             ->add('prenom', TextType::class)

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Campus{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des Campus</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="column-title">Nom</th>
+            <th class="column-title">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for campus in campuses %}
+            <tr>
+                <td class="campus-nom">{{ campus.nom }}</td>
+                <td>
+                    <a href="{{ path('campus_edit', {'id': campus.id}) }}" class="btn btn-primary">Modifier</a>
+
+                    <form action="{{ path('campus_delete', {'id': campus.id}) }}" method="post" style="display: inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ campus.id) }}">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce campus ?')">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Affichage des messages d'erreur -->
+    {% if app.session.flashBag.has('error') %}
+        <div class="alert alert-danger mt-3 mb-5">
+            {% for message in app.session.flashBag.get('error') %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Affichage des messages de succès -->
+        {% if app.session.flashBag.has('success') %}
+            <div class="alert alert-success mt-3 mb-5">
+                {% for message in app.session.flashBag.get('success') %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div class="mt-3 mb-5">
+        <a href="{{ path('main_redirect') }}" class="btn btn-secondary">Retour à l'accueil</a>
+        <a href="{{ path('campus_add') }}" class="btn btn-primary">Ajouter un campus</a>
+    </div>
+
+{% endblock %}

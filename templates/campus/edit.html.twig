@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un Campus{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="text-center">Modifier un Campus</h1>
+                <form method="post">
+                    {{ form_start(form) }}
+                    <div class="mb-3">
+                        <label for="{{ form.nom.vars.id }}" class="form-label">Nom du campus :</label>
+                        {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'style': 'width:100%'}}) }}
+                    </div>
+                    <div class="text-center">
+                        <a href="{{ path('campus_viewList') }}" class="btn btn-secondary">Annuler</a>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                    {{ form_end(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

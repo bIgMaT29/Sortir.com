@@ -8,7 +8,7 @@
 
         <h1 class="mt-4 mb-4">Modifier Mon Profil</h1>
 
-        <form method="post" action="{{ path('main_profil') }}" enctype="multipart/form-data">
+        <form method="post" action="{{ path('profil_edit') }}" enctype="multipart/form-data">
 
             {{ form_start(form) }}
 
@@ -53,22 +53,22 @@
                     </div>
                     <div class="mb-3">
                         {{ form_label(form.newMotDePasse, 'Nouveau mot de passe', {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.newMotDePasse, {'attr': {'class': 'form-control', 'placeholder': 'Nouveau mot de passe'}}) }}
+                        {{ form_widget(form.newMotDePasse, {'attr': {'class': 'form-control', 'placeholder': 'Nouveau mot de passe', 'value': ''}}) }}
                     </div>
                     <div class="mb-3">
                         {{ form_label(form.confirmNewMotDePasse, 'Confirmer le mot de passe', {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.confirmNewMotDePasse, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe'}}) }}
+                        {{ form_widget(form.confirmNewMotDePasse, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe', 'value': ''}}) }}
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="mb-3">
                         {{ form_label(form.prenom, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
+                        {{ form_widget(form.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom', 'oninput': 'capitalizeFirstLetter(this)'}}) }}
                     </div>
                     <div class="mb-3">
                         {{ form_label(form.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+                        {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom', 'oninput': 'this.value = this.value.toUpperCase();'}}) }}
                     </div>
                     <div class="mb-3">
                         {{ form_label(form.telephone, 'Téléphone', {'label_attr': {'class': 'form-label'}}) }}
@@ -78,11 +78,19 @@
 
             </div>
 
-
-            <!-- Bouton "Modifier" pour soumettre le formulaire -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-grid gap-2 mt-4 mb-5"> <!-- Ajoutez mt-4 pour la marge supérieure -->
+            <!-- Boutons -->
+            <div class="row mt-3">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <!-- Conteneur pour le premier bouton -->
+                    <div class="d-inline-block mt-3">
+                        <!-- Bouton pour voir le profil -->
+                        <a href="{{ path('profil_view') }}" class="btn btn-secondary btn-lg">Annuler</a>
+                    </div>
+                    <!-- Espacement entre les boutons -->
+                    <div class="mx-2"></div>
+                    <!-- Conteneur pour le deuxième bouton -->
+                    <div class="d-inline-block mt-3">
+                        <!-- Bouton "Modifier" pour soumettre le formulaire -->
                         <button type="submit" class="btn btn-primary btn-lg">Enregistrer</button>
                     </div>
                 </div>
@@ -164,6 +172,10 @@
             document.querySelector('input[type=file]').value = "";
             // Réinitialiser le champ du nom de la photo de profil
             document.querySelector('input[type=text]').value = "defaut.png";
+        }
+
+        function capitalizeFirstLetter(input) {
+            input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1);
         }
 
     </script>

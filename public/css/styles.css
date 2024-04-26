@@ -59,3 +59,25 @@ footer {
     height: 200px; /* Définissez la hauteur souhaitée */
     object-fit: cover; /* Zoomer l'image pour qu'elle remplisse le conteneur en conservant ses proportions */
 }
+
+.ville-nom,
+.ville-codepostal {
+    color: white; /* Définit la couleur du texte en blanc */
+}
+
+.action-link {
+    color: white; /* Définit la couleur du texte en blanc */
+    /*text-decoration: none; !* Supprime la soulignement par défaut des liens *!*/
+}
+
+.action-link:hover {
+    text-decoration: underline; /* Ajoute un soulignement lorsque le lien est survolé */
+}
+
+.column-title {
+    color: white; /* Définit la couleur du texte en blanc */
+}
+
+.campus-nom {
+    color: white; /* Définit la couleur du texte en blanc */
+}

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <!-- Titre -->
+        <h1 class="mt-4 mb-4">Mon Profil</h1>
+
+        <div class="row">
+            <!-- Colonne pour la photo de profil -->
+            <div class="col-md-4 mb-3">
+                <div class="text-center">
+                    <img id="profil-image" src="{{ asset('img/profil/' ~ participant.photoDeProfil) }}" alt="Photo de profil" class="img-fluid" style="max-width: 200px;">
+                </div>
+            </div>
+
+            <!-- Colonne pour les informations -->
+            <div class="col-md-7 offset-md-1">
+                <div class="mb-3">
+                    <!-- Pseudo -->
+                    <div class="text-center mb-3">
+                        <h2>{{ participant.pseudo }}</h2>
+                    </div>
+                    <!-- Informations -->
+                    <div class="mb-3">
+                        <strong>Prénom:</strong> {{ participant.prenom }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Nom:</strong> {{ participant.nom }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Téléphone:</strong> {{ participant.telephone }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>E-mail:</strong> {{ participant.email }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Campus:</strong> {{ participant.campus.nom }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="d-grid gap-2 mt-4">
+            <!-- Bouton pour revenir à l'accueil du site -->
+            <a href="{{ path('main_redirect') }}" class="btn btn-secondary">Retour à l'accueil</a>
+            <!-- Bouton pour accéder à la page de modification -->
+            <a href="{{ path('profil_edit') }}" class="btn btn-primary">Modifier Mon Profil</a>
+        </div>
+    </div>
+{% endblock %}

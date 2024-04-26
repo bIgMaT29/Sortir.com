@@ -18,8 +18,8 @@ security:
             provider: app_user_provider
             custom_authenticator: App\Security\AppAuthenticator
             logout:
-                path: app_logout
-                target: app_login # Redirection vers la page de connexion après la déconnexion
+                path: security_logout
+                target: security_login # Redirection vers la page de connexion après la déconnexion
 
             remember_me:
                 secret: '%kernel.secret%'
